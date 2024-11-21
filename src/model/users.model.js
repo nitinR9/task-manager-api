@@ -1,5 +1,3 @@
-const sequelize = require('sequelize')
-
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/index');
 
@@ -18,8 +16,7 @@ const User = sequelize.define('User', {
         allowNull: false
     }
 }, {
-    tableName: 'users',
-    timestamps: true
+    tableName: 'users'
 });
 
 module.exports = User;
