@@ -1,12 +1,22 @@
 const { Sequelize } = require('sequelize')
 const Database = require('better-sqlite3')
 
-const db = new Database('task-manager.db')
+const tasks = new Database('tasks.db')
+const users = new Database('users.db')
 
-const sq = new Sequelize({
+const sqTask = new Sequelize({
     dialect: 'sqlite',
-    storage: 'task-manager.db',
-    dialectModule: db
+    storage: 'tasks.db',
+    dialectModule: tasks
 })
 
-module.exports = sq
+const sqUser = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'users.db',
+    dialectModule: users
+})
+
+module.exports = {
+    sqTask,
+    sqUser
+}

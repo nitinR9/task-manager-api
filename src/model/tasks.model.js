@@ -1,7 +1,35 @@
-const { DataTypes, DATE } = require('sequelize')
-const sequelize = require('../db/index')
+const { DataTypes } = require('sequelize')
+const { sqTask } = require('../db/index')
 
-const Task = sequelize.define('Task', {
+const Comment = sqTask.define('Comment', {
+    commentId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    id: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    text: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    author: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    }
+}, {
+    tableName: 'comments',
+    timestamps: false
+})
+
+const Task = sqTask.define('Task', {
     id: {
         type: DataTypes.STRING,
         primaryKey: true,
@@ -19,6 +47,7 @@ const Task = sequelize.define('Task', {
         type: DataTypes.ENUM,
         values: ['Todo', 'In Progress', 'Done'],
         allowNull: false,
+        defaultValue: 'Todo'
     },
     priority: {
         type: DataTypes.ENUM,
@@ -42,4 +71,14 @@ const Task = sequelize.define('Task', {
     timestamps: true
 })
 
-module.exports = Task
+Task.hasMany(Comment, {
+    foreignKey: 'id',
+    onDelete: 'CASCADE'
+})
+
+Comment.belongsTo(Task)
+
+module.exports = {
+    Task,
+    Comment
+}
