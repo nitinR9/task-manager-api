@@ -2,12 +2,12 @@ const { DataTypes } = require('sequelize')
 const { sqTask } = require('../db/index')
 
 const Comment = sqTask.define('Comment', {
-    commentId: {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    id: {
+    taskId: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -68,11 +68,9 @@ const Task = sqTask.define('Task', {
 })
 
 Task.hasMany(Comment, {
-    foreignKey: 'id',
+    foreignKey: 'taskId',
     onDelete: 'CASCADE'
 })
-
-Comment.belongsTo(Task)
 
 module.exports = {
     Task,
