@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sqUser } = require('../db/index');
+const bcrypt = require('bcrypt')
 
 const User = sqUser.define('User', {
     id: {
@@ -16,7 +17,12 @@ const User = sqUser.define('User', {
         allowNull: false
     }
 }, {
-    tableName: 'users'
+    tableName: 'users',
+    timestamps: false
 });
+
+User.prototype.validHash = function(password, hash){
+    return bcrypt.compare(password, hash)
+}
 
 module.exports = User;

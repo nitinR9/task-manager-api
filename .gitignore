@@ -16,3 +16,4 @@ dist/
 build/
 
 package-lock.json
+*.db

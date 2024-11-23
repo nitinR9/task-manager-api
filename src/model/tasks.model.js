@@ -18,15 +18,11 @@ const Comment = sqTask.define('Comment', {
     author: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
 }, {
     tableName: 'comments',
-    timestamps: false
+    timestamps: true,
+    updatedAt: false
 })
 
 const Task = sqTask.define('Task', {
