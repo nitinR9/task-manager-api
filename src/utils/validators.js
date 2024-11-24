@@ -9,8 +9,7 @@ const postTaskSchema = z.object({
 })
 
 const postCommentSchema = z.object({
-    text: z.string({ required_error: 'Comment text is required' }),
-    author: z.string({ required_error: 'Author name is required' })
+    text: z.string({ required_error: 'Comment text is required' })
 })
 
 const getTasksSchema = z.object({
@@ -24,9 +23,15 @@ const putTaskSchema = z.object({
     assignee: z.string({ required_error: 'Assignee is required' })
 }).partial().refine((data) => Object.keys(data).length !== 0, { message: 'At least one field is required for task update' })
 
+const loginSchema = z.object({
+    name: z.string().min(6),
+    password: z.string().min(8)
+})
+
 module.exports = {
     postTaskSchema,
     postCommentSchema,
     getTasksSchema,
-    putTaskSchema
+    putTaskSchema,
+    loginSchema
 }

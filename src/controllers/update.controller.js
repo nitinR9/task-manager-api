@@ -24,6 +24,12 @@ async function updateTask(req, res, next){
             })
         }
 
+        if (exists.dataValues.creator !== req.user.name){
+            return res.status(400).json({
+                error: 'This operation can be performed by original creator'
+            })
+        }
+
         const result = putTaskSchema.parse(updateValues)
 
         await Task.update(
@@ -53,22 +59,33 @@ async function deleteTask(req, res, next){
             })
         }
 
+        const exists = await Task.findOne({
+            where: {
+                id: taskId
+            }
+        })
+
+        if (!exists){
+            return res.status(404).json({
+                error: 'Task doesnot exists for the operation'
+            })
+        }
+
+        if (exists.dataValues.creator !== req.user.name){
+            return res.status(400).json({
+                error: 'This operation can be performed by original creator'
+            })
+        }
+
         const result = await Task.destroy({
             where: {
                 id: taskId
             }
         })
 
-        if (result){
-            res.json({
-                success: 'Task deleted successfully'
-            })
-        }
-        else{
-            res.status(404).json({
-                error: 'Task doesnot exists for the operation'
-            })
-        }
+        res.json({
+            success: 'Task deleted successfully'
+        })
     }catch(err){
         next(err)
     }

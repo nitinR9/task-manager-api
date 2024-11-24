@@ -12,7 +12,7 @@ async function addTasks(req, res, next){
         const task = await Task.create({
             id,
             ...result,
-            creator: 'john.doe'
+            creator: req.user.name
         }) ;
 
         res.json({
@@ -45,11 +45,13 @@ async function addComments(req, res, next){
 
         const comment = await Comment.create({
             taskId,
-            ...result
+            ...result,
+            author: req.user.name
         })
         res.json({
             id: comment.dataValues.id,
-            ...result
+            ...result,
+            author: req.user.name
         })
     }
     catch(err){

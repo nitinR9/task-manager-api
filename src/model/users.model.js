@@ -21,8 +21,33 @@ const User = sqUser.define('User', {
     timestamps: false
 });
 
-User.prototype.validHash = function(password, hash){
-    return bcrypt.compare(password, hash)
-}
+const Token = sqUser.define('Token', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    userId: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false
+    },
+    jwtToken: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+}, {
+    tableName: 'tokens',
+    timestamps: false  
+})
 
-module.exports = User;
+User.hasOne(Token, {
+    foreignKey: 'userId',
+    onDelete: 'CASCADE',
+    as: 'token'
+})
+
+module.exports = {
+    User,
+    Token
+};

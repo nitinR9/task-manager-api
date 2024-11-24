@@ -9,17 +9,16 @@ const PASSWORD = process.env.USER_PASS || 'user'
 const apiRouter = require('./src/routes');
 const errorHandler = require('./src/middlewares/error-handler');
 
-const User = require('./src/model/users.model');
-const { hash, genSalt } = require('bcrypt');
+const { User } = require('./src/model/users.model');
 const { sqTask, sqUser } = require('./src/db/index');
+const { getHash } = require('./src/utils/functions');
 
 (async () => {
     await sqTask.sync({ force: true })
     await sqUser.sync({ force: true })
 
     console.log('creating initial user !')
-    const salt = await genSalt()
-    const pwd = await hash(PASSWORD, salt)
+    const pwd = await getHash(PASSWORD)
 
     await User.create({
         name: 'john.doe',
