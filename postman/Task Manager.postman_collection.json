@@ -1,0 +1,430 @@
+{
+	"info": {
+		"_postman_id": "613961bf-de90-4c23-a2bc-20f6ed39a403",
+		"name": "Task Manager",
+		"description": "API to create, add, delete tasks with their respective comments. Running the following mentioned tasks when user is authenticated.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8055826"
+	},
+	"item": [
+		{
+			"name": "ADD TASKS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json()",
+							"pm.environment.set(\"taskId\", response.id)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"this is a title\",\n    \"description\": \"this is description\",\n    \"status\": \"Todo\",\n    \"priority\": \"Low\",\n    \"assignee\": \"john.doe\",\n    \"dueDate\": \"2024-10-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/tasks",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"tasks"
+					]
+				},
+				"description": "Adding a new task in DB."
+			},
+			"response": []
+		},
+		{
+			"name": "ADD COMMENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json()",
+							"pm.environment.set(\"commentId\", response.id)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"This is test comment\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/tasks/{{taskId}}/comments",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"tasks",
+						"{{taskId}}",
+						"comments"
+					]
+				},
+				"description": "Adding comments to the tasks"
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE TASK",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\": \"In Progress\",\n    \"priority\": \"High\",\n    \"assignee\": \"clara.rosewell\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/tasks/{{taskId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"tasks",
+						"{{taskId}}"
+					]
+				},
+				"description": "updating the task by the original creator"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE TASK",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/tasks/{{taskId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"tasks",
+						"{{taskId}}"
+					]
+				},
+				"description": "Deleting the task by original creator"
+			},
+			"response": []
+		},
+		{
+			"name": "ALL TASKS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/tasks?status=Todo&priority=Low",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"tasks"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "Todo"
+						},
+						{
+							"key": "priority",
+							"value": "Low"
+						}
+					]
+				},
+				"description": "Fetch all task if no query params and if params provided filter tasks based on it"
+			},
+			"response": []
+		},
+		{
+			"name": "SINGLE TASK",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/tasks/{{taskId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"tasks",
+						"{{taskId}}"
+					]
+				},
+				"description": "Get the task by it's id"
+			},
+			"response": []
+		},
+		{
+			"name": "SEARCH TASK",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/tasks/search?key=low",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"tasks",
+						"search"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "low"
+						}
+					]
+				},
+				"description": "search the task by it's title, description and assignee"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN USER",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json()",
+							"pm.environment.set(\"accessToken\", response.accessToken)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"john.doe\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"login"
+					]
+				},
+				"description": "takes name and password to generate token for already existing user"
+			},
+			"response": []
+		},
+		{
+			"name": "SIGNUP NEW USER",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json()",
+							"pm.environment.set(\"accessToken\", response.accessToken)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"john.rocker\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/signup",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"signup"
+					]
+				},
+				"description": "create a new user and return token for it"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGOUT USER",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"logout"
+					]
+				},
+				"description": "logout the already signed in user"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE USER",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/api/user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": "delete the existing user that is already logged in"
+			},
+			"response": []
+		}
+	]
+}
