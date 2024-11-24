@@ -29,5 +29,6 @@ API for managing tasks for RUD operations and adding comments through an authent
 ## Screenshots
 
 ![image](https://github.com/user-attachments/assets/57bc983e-381c-4983-8ddd-fb1e651a6beb)
+
 ![image](https://github.com/user-attachments/assets/d43e2979-9d66-4863-bfb2-997994377991)
 
