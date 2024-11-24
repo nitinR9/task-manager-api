@@ -213,7 +213,9 @@ async function deleteUser(req, res, next){
 
             const userId = decoded.id
             const exists = await Token.findOne({
-                userId
+                where: {
+                    userId
+                }
             })
 
             if (!exists){
