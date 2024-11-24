@@ -59,17 +59,24 @@ const Task = sqTask.define('Task', {
         allowNull: false
     },
     dueDate: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, {
     tableName: 'tasks',
-    timestamps: true
+    timestamps: true,
+    indexes: [
+       {
+            type: 'FULLTEXT',
+            fields: ['title', 'description', 'assignee']
+       } 
+    ]
 })
 
 Task.hasMany(Comment, {
     foreignKey: 'taskId',
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    as: 'comments'
 })
 
 module.exports = {

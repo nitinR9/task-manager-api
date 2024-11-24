@@ -14,9 +14,9 @@ const postCommentSchema = z.object({
 })
 
 const getTasksSchema = z.object({
-    status: z.enum(['Todo', 'In Progress', 'Done']),
-    priority: z.enum(['Low', 'Medium', 'High'])
-}).partial().refine(({ status, priority }) => status || priority, { message: 'Either one of filter options required: "status" or "priority"' })
+    status: z.enum(['Todo', 'In Progress', 'Done']).optional(),
+    priority: z.enum(['Low', 'Medium', 'High']).optional()
+})
 
 const putTaskSchema = z.object({
     status: z.enum(['Todo', 'In Progress', 'Done'], { required_error: 'Status is required' }),

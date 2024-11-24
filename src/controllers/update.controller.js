@@ -4,6 +4,7 @@ const { putTaskSchema } = require("../utils/validators")
 async function updateTask(req, res, next){
     try{
         const taskId = req.params.id
+        const updateValues = req.body
 
         if (taskId === ''){
             return res.status(400).json({
@@ -23,7 +24,7 @@ async function updateTask(req, res, next){
             })
         }
 
-        const result = putTaskSchema.parse(req.body)
+        const result = putTaskSchema.parse(updateValues)
 
         await Task.update(
             result,
@@ -52,15 +53,22 @@ async function deleteTask(req, res, next){
             })
         }
 
-        await Task.destroy({
+        const result = await Task.destroy({
             where: {
                 id: taskId
             }
         })
 
-        res.json({
-            success: 'Task deleted successfully'
-        })
+        if (result){
+            res.json({
+                success: 'Task deleted successfully'
+            })
+        }
+        else{
+            res.status(404).json({
+                error: 'Task doesnot exists for the operation'
+            })
+        }
     }catch(err){
         next(err)
     }
