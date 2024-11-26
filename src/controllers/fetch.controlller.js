@@ -1,4 +1,4 @@
-const { getTasksSchema } = require("../utils/validators")
+const { getTasksSchema, searchTasksSchema } = require("../utils/validators")
 const { getTask, getAllTasks } = require("../utils/functions")
 const { Task, Comment } = require("../model/tasks.model")
 const { Op } = require("sequelize")
@@ -6,7 +6,6 @@ const { Op } = require("sequelize")
 async function fetchAllTasks(req, res, next){
     try{
         const queryParams = req.query
-        console.log(queryParams)
         const parseQuery = getTasksSchema.parse(queryParams)
         const result = await getAllTasks(parseQuery)
 
@@ -38,14 +37,10 @@ async function fetchSingleTask(req, res, next){
 
 async function searchTask(req, res, next){
     try{
-        const searchValue = req.query.key
-        console.log(req.query)
-        if (!searchValue || searchValue === ''){
-            return res.status(400).json({
-                error: 'Search key is required'
-            })
-        }
-
+        const queryParams = req.query
+        const parseQuery = searchTasksSchema.parse(queryParams)
+        const searchValue = parseQuery.key
+        
         const results = await Task.findAll({
             where: {
                 [Op.or]: [

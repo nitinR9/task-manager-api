@@ -23,6 +23,10 @@ const putTaskSchema = z.object({
     assignee: z.string({ required_error: 'Assignee is required' })
 }).partial().refine((data) => Object.keys(data).length !== 0, { message: 'At least one field is required for task update' })
 
+const searchTasksSchema = z.object({
+    key: z.string({ required_error: 'Search key field is required' }).min(1)
+})
+
 const loginSchema = z.object({
     name: z.string().min(6),
     password: z.string().min(8)
@@ -33,5 +37,6 @@ module.exports = {
     postCommentSchema,
     getTasksSchema,
     putTaskSchema,
-    loginSchema
+    loginSchema,
+    searchTasksSchema
 }

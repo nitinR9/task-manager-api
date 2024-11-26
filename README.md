@@ -1,17 +1,17 @@
 
 # Task manager API
 
-API for managing tasks for RUD operations and adding comments through an authenticated user.
+API for managing tasks for CRUD operations and adding comments through an authenticated user.
 
 ## Pre-requisite
 
-- .env File - below is and example to keep environment file under root folder
+- .env File - below is an example for a default environment file to be kept under root folder
 ```
     PORT=3000
     USER_PASS=password
     SERVER_TOKEN=thisisservertoken
 ```
-- Installing packages and Running server - run the command in root folder
+- Installing packages and Running server - run the following commands from the root folder
 
 ```
     npm install

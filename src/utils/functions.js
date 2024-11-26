@@ -44,7 +44,7 @@ async function getHash(pwd){
 async function getJWT(body){
     const payload = body
     const options = {
-        expiresIn: '1m', // set to 1min for testing
+        expiresIn: '5m', // set to 1min for testing
         issuer: 'DEV9'
     }
     const KEY = process.env.SERVER_TOKEN
