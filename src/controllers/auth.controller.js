@@ -141,7 +141,6 @@ async function logoutUser(req, res, next){
             const [decoded, error] = await checkJWT(token)
 
             if (error instanceof TokenExpiredError || decoded){
-                console.log('in expired')
                 let userId = ''
                 if (decoded){
                     userId = decoded.id
